@@ -1,7 +1,6 @@
 cron:
 - description: Get latest DB contents from liveBandPhotos.co.uk and update local
   url: /tasks/sync    
-  target: syncbackend
-  schedule: every 5 minutes
-  #schedule: every 24 hours
+  target: syncbackend  
+  schedule: every 24 hours
 
