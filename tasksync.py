@@ -7,7 +7,7 @@ class TaskSyncHandler(webapp2.RequestHandler):
 
     def get(self):
 
-        url = 'http://admin.livebandphotos.co.uk/transfer.php'
+        url = 'http://admin.livebandphotos.co.uk/transfergigsonly.php'
         #url = 'http://localhost/GalleryMetadata/transfer.xml'
 
         logging.info("Running daily Cron")
