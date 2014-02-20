@@ -8,6 +8,17 @@ handlers:
 - url: /favicon\.ico
   static_files: favicon.ico
   upload: favicon\.ico
+  expiration: "100d"
+
+- url: /robots\.txt
+  static_files: robots.txt
+  upload: robots\.txt
+  expiration: "100d"
+
+- url: /tasks/sync
+  script: tasksync.app
+  login: admin
+  secure: optional
 
 - url: .*
   script: main.app

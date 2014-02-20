@@ -1,0 +1,5 @@
+cron:
+- description: Change Photo Of the Day
+  url: /tasks/sync
+  schedule: every 24 hours
+
