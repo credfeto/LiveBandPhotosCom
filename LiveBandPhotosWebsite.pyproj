@@ -16,9 +16,11 @@
   <PropertyGroup Condition="'$(Configuration)' == 'Release'" />
   <ItemGroup>
     <Compile Include="models.py" />
+    <Compile Include="sync.py" />
     <Compile Include="tasksync.py" />
     <Compile Include="main.py" />
     <Compile Include="utils.py" />
+    <Content Include="backends.yaml" />
     <Content Include="cron.yaml" />
     <Content Include="app.yaml" />
     <Content Include="favicon.ico" />
