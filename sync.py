@@ -21,7 +21,7 @@ import models
 import utils
 
 def sync_now( url ):
-    result = urlfetch.fetch(url);
+    result = urlfetch.fetch(url = url, deadline = 120)
     if result.status_code == 200:
 
         process_content( result.content )
