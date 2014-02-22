@@ -18,8 +18,18 @@ import webapp2
 
 class MainHandler(webapp2.RequestHandler):
     def get(self):
-        self.response.write('Live band Photos Mobile!')
+        self.response.write('Live Band Photos Mobile - Main page')
+
+class BandHandler(webapp2.RequestHandler):
+    def get(self):
+        self.response.write('Live Band Photos Mobile - band view')
+
+class VenueHandler(webapp2.RequestHandler):
+    def get(self):
+        self.response.write('Live Band Photos Mobile - venue view')
 
 app = webapp2.WSGIApplication([
+    ('/venue/[\w\-]*/', VenueHandler),
+    ('/band/[\w\-]*/', BandHandler),
     ('/', MainHandler)
 ], debug=True)
