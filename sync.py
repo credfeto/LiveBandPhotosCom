@@ -41,6 +41,10 @@ def process_content( content ):
     itemsWritten = 0
     itemsRemoved = 0
     found = 0
+
+    bands = []
+    venues = []
+
     bandsXml = root.findall(".//table[@name='tempgig']/records/record")
     for gigXml in bandsXml:
         found = found + 1
@@ -64,7 +68,10 @@ def process_content( content ):
             #self.response.out.write( '\t')
             #self.response.out.write( parsedDate )
             #self.response.out.write( '\n') 
-                    
+
+            bands.append(bandname)
+            venues.append(venuename)
+
             gig = models.Gig.query(models.Gig.id == parsedId).get()
             if gig is None:
                 gig = models.Gig(
@@ -87,7 +94,6 @@ def process_content( content ):
                 gig.put()
 
                 itemsWritten = itemsWritten + 1
-    
 
     if found  > 0 :
         toDelete = models.Gig.query( models.Gig.updated < now ).fetch()
@@ -95,3 +101,50 @@ def process_content( content ):
             dbItem.key.delete()
             itemsRemoved = itemsRemoved + 1
 
+    update_bands(bands, now)
+    update_venues(venues, now)
+
+
+def update_bands( bands, now ):
+    bandsFound = set(bands)
+    for bandName in bandsFound:
+        band = models.Band.query(models.Band.name == bandName).get()
+        bandUrl = utils.make_band_url(bandName)
+        if band is None:
+
+            band = models.Band(
+                            name = bandName,
+                            url = bandUrl,
+                            updated = now )
+            band.put()
+        else:
+            band.name = bandName
+            band.url = bandUrl
+            band.updated = now
+            band.put();
+
+    toDelete = models.Band.query( models.Band.updated < now ).fetch()
+    for item in toDelete:
+        item.key.delete()
+
+def update_venues( venues, now ):
+    venuesFound = set(venues)
+    for venueName in venuesFound:
+        venue = models.Venue.query(models.Venue.name == venueName).get()
+        venueUrl = utils.make_venue_url(venueName)
+        if venue is None:
+
+            venue = models.Venue(
+                            name = venueName,
+                            url = venueUrl,
+                            updated = now )
+            venue.put()
+        else:
+            venue.name = venueName
+            venue.url = venueUrl
+            venue.updated = now
+            venue.put();
+
+    toDelete = models.Venue.query( models.Venue.updated < now ).fetch()
+    for item in toDelete:
+        item.key.delete()

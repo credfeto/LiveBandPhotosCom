@@ -8,14 +8,14 @@ from google.appengine.ext import blobstore
 
 
 class Band(ndb.Model):
-    id = ndb.IntegerProperty(required=True)
     name = ndb.StringProperty(required=True)
-    updated = ndb.DateTimeProperty(auto_now=True)
+    url = ndb.StringProperty(required=True)
+    updated = ndb.DateTimeProperty(required=True)
 
 class Venue(ndb.Model):
-    id = ndb.IntegerProperty(required=True)
     name = ndb.StringProperty(required=True)
-    updated = ndb.DateTimeProperty(auto_now=True)
+    url = ndb.StringProperty(required=True)
+    updated = ndb.DateTimeProperty(required=True)
 
 class Gig(ndb.Model):
     id = ndb.IntegerProperty(required=True)

@@ -23,7 +23,6 @@
         <hr />
         <h2>Gigs This Week</h2>
 
-        <!-- This weeks gigs go here! -->
         {% for gig in gigs %}
         <p class="gig">{{gig.when}} - <a href="{{gig.bandUrl}}">{{gig.band}}</a> in <a href="{{gig.venueUrl}}">{{gig.venue}}</a></p>
         {% endfor %}

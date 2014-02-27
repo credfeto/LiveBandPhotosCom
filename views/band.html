@@ -13,7 +13,9 @@
     <div class="container">
         <h2>{{band}} Gigs</h2>
 
-        <!-- This weeks gigs go here! -->
+        {% for gig in gigs %}
+        <p class="gig">{{gig.when}} - <a href="{{gig.venueUrl}}">{{gig.venue}}</a></p>
+        {% endfor %}
     </div>
 </div>
 {% endblock %}

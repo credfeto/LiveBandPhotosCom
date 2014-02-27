@@ -47,6 +47,12 @@ def make_url( originalPath ):
 
     return replacedEndingHyphens
 
+def make_band_url(name):
+   return make_url('/band/' + name)
+
+def make_venue_url(name):
+    return make_url('/venue/' + name)
+
 def is_development():
     env = os.environ['SERVER_SOFTWARE']
 
