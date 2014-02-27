@@ -24,6 +24,7 @@
     <Content Include="cron.yaml" />
     <Content Include="app.yaml" />
     <Content Include="favicon.ico" />
+    <Content Include="index.yaml" />
     <Content Include="robots.txt" />
     <Content Include="static\config.json" />
     <Content Include="static\css\bootstrap-theme.css" />
