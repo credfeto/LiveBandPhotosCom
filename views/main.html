@@ -1,0 +1,35 @@
+{% extends "base.html" %}
+{% block title %}Live Band Photos Mobile{% endblock %}
+{% block title1 %}Live Band Photos Mobile{% endblock %}
+{% block title2 %}Live Band Photos Mobile{% endblock %}
+{% block title3 %}Live Band Photos Mobile{% endblock %}
+{% block title4 %}Live Band Photos Mobile{% endblock %}
+{% block head %}
+<!-- Head block -->
+{% endblock %}
+{% block body %}
+<!-- Body block -->
+<div class="row">
+    <div class="container">
+        <h1>Livebandphotos (Mobile)</h1>
+        <p>
+            This is a cutdown version of livebandphotos.co.uk for use on mobiles. To view the full site please go to <a href="http://www.livebandphotos.co.uk/">Livebandphotos.co.uk</a>.
+        </p>
+    </div>
+</div>
+<div class="row">
+    <div class="container">
+
+        <hr />
+        <h2>Gigs This Week</h2>
+
+        <!-- This weeks gigs go here! -->
+        {% for gig in gigs %}
+        <p class="gig">{{gig.when}} - <a href="{{gig.bandUrl}}">{{gig.band}}</a> in <a href="{{gig.venueUrl}}">{{gig.venue}}</a></p>
+        {% endfor %}
+
+        <p class="home"><a href="http://www.livebandphotos.co.uk/">Live Band Photos Home</a></p>
+    </div>
+</div>
+
+{% endblock %}

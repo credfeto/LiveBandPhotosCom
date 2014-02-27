@@ -25,7 +25,20 @@
     <Content Include="app.yaml" />
     <Content Include="favicon.ico" />
     <Content Include="robots.txt" />
+    <Content Include="static\config.json" />
+    <Content Include="static\css\bootstrap-theme.css" />
+    <Content Include="static\css\bootstrap-theme.min.css" />
+    <Content Include="static\css\bootstrap.css" />
+    <Content Include="static\css\bootstrap.min.css" />
+    <Content Include="views\base.html" />
+    <Content Include="views\band.html" />
+    <Content Include="views\venue.html" />
+    <Content Include="views\main.html" />
   </ItemGroup>
-  <ItemGroup />
+  <ItemGroup>
+    <Folder Include="views\" />
+    <Folder Include="static\" />
+    <Folder Include="static\css\" />
+  </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.Common.targets" />
 </Project>

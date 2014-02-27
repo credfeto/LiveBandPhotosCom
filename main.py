@@ -1,32 +1,51 @@
-#!/usr/bin/env python
-#
-# Copyright 2007 Google Inc.
-#
-# Licensed under the Apache License, Version 2.0 (the "License");
-# you may not use this file except in compliance with the License.
-# You may obtain a copy of the License at
-#
-#     http://www.apache.org/licenses/LICENSE-2.0
-#
-# Unless required by applicable law or agreed to in writing, software
-# distributed under the License is distributed on an "AS IS" BASIS,
-# WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
-# See the License for the specific language governing permissions and
-# limitations under the License.
-#
+import datetime
 import webapp2
+import utils
+import models
+from google.appengine.ext import ndb
 
 class MainHandler(webapp2.RequestHandler):
     def get(self):
-        self.response.write('Live Band Photos Mobile - Main page')
+        track = utils.should_track( self.request.headers )
+
+        searchPath = self.request.path.lower()
+        hash = utils.generate_url_hash(searchPath)
+
+        startDate = datetime.date.today()
+        endDate = startDate + datetime.timedelta(days=10)
+
+        dbGigs = models.Gig.query(models.Gig.date >= startDate and models.Gig.date <= endDate).order(models.Gig.date).fetch()
+
+        gigs = []
+        for dbGig in dbGigs:
+            bandUrl = utils.make_url('/band/' + dbGig.band)
+            venueUrl = utils.make_url('/venue/' + dbGig.venue)
+
+            gig = { 'band' : dbGig.band, 'bandUrl': bandUrl, 'when' : dbGig.date, 'venue': dbGig.venue, 'venueUrl': venueUrl }
+            gigs.append(gig)
+
+        template_vals = { 'path': searchPath, 'track': track, 'hash' : hash, 'gigs' : gigs }
+        self.response.out.write(utils.render_template("main.html", template_vals))
 
 class BandHandler(webapp2.RequestHandler):
     def get(self):
-        self.response.write('Live Band Photos Mobile - band view')
+        track = utils.should_track( self.request.headers )
+
+        searchPath = self.request.path.lower()
+        hash = utils.generate_url_hash(searchPath)
+
+        template_vals = { 'path': searchPath, 'track': track, 'hash' : hash }
+        self.response.out.write(utils.render_template("band.html", template_vals))
 
 class VenueHandler(webapp2.RequestHandler):
     def get(self):
-        self.response.write('Live Band Photos Mobile - venue view')
+        track = utils.should_track( self.request.headers )
+
+        searchPath = self.request.path.lower()
+        hash = utils.generate_url_hash(searchPath)
+
+        template_vals = { 'path': searchPath, 'track': track, 'hash' : hash }
+        self.response.out.write(utils.render_template("venue.html", template_vals))
 
 app = webapp2.WSGIApplication([
     ('/venue/[\w\-]*/', VenueHandler),

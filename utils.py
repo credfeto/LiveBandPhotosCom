@@ -1,5 +1,22 @@
 import os
 import datetime
+import hashlib
+import re
+
+from google.appengine.ext import webapp
+from google.appengine.ext.webapp import template
+
+def should_track( headers ):
+
+    track = headers.get('DNT', "0")
+
+    if track is None:
+        return True
+
+    if track == "1":
+        return False
+
+    return True
 
 def isoparse(s):
     try:
@@ -16,7 +33,7 @@ def isoparse(s):
 
 def make_url( originalPath ):
 
-    base = originalPath
+    base = originalPath.lower()
     
     root =  base.strip();
     
@@ -34,3 +51,21 @@ def is_development():
     env = os.environ['SERVER_SOFTWARE']
 
     return env.startswith('Development/')
+
+def generate_url_hash(searchPath):
+    return hashlib.sha512(searchPath).hexdigest()
+
+def slugify(s):
+  s = unicodedata.normalize('NFKD', s).encode('ascii', 'ignore')
+  return re.sub('[^a-zA-Z0-9-]+', '-', s).strip('-')
+
+
+def render_template(template_name, template_vals=None):
+  if not template_vals:
+    template_vals = {}
+  template_vals.update({
+      'template_name': template_name,
+      'devel': os.environ['SERVER_SOFTWARE'].startswith('Devel'),
+  })
+  template_path = os.path.join("views", template_name)
+  return template.render(template_path, template_vals)

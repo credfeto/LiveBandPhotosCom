@@ -1,0 +1,35 @@
+{% extends "base.html" %}
+{% block title %}{{venue}} - Live Band Photos Mobile{% endblock %}
+{% block title1 %}{{venue}} - Live Band Photos Mobile{% endblock %}
+{% block title2 %}{{venue}} - Live Band Photos Mobile{% endblock %}
+{% block title3 %}{{venue}} - Live Band Photos Mobile{% endblock %}
+{% block title4 %}{{venue}} - Live Band Photos Mobile{% endblock %}
+{% block head %}
+<!-- Head block -->
+{% endblock %}
+{% block body %}
+<!-- Body block -->
+<div class="row">
+    <div class="container">
+        <h2>{{venue}}</h2>
+
+        {% if address %}
+        <p>{{address.line1}}</p>
+        <p>{{address.town}}</p>
+        <p>{{address.county}}</p>
+        <p>{{address.postcode}}</p>
+        v
+        {% if address.phonenumber %}
+        <p>Phone Number: {{address.phonenumber}}</p>
+        {% endif}
+        {% endif}
+    </div>
+</div>
+<div class="row">
+    <div class="container">
+
+        <h3>{{venue}} Gigs</h3>
+        <!-- This weeks gigs go here! -->
+    </div>
+</div>
+{% endblock %}
