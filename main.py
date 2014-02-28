@@ -17,11 +17,13 @@ class MainHandler(webapp2.RequestHandler):
 
         gigs = []
         for dbGig in dbGigs:
-            bandUrl = utils.make_band_url(dbGig.band)
-            venueUrl = utils.make_venue_url(dbGig.venue)
 
-            gig = { 'band' : dbGig.band, 'bandUrl': bandUrl, 'when' : dbGig.date, 'venue': dbGig.venue, 'venueUrl': venueUrl }
-            gigs.append(gig)
+            if dbGig.date >= startDate and dbGig.date <= endDate:
+                bandUrl = utils.make_band_url(dbGig.band)
+                venueUrl = utils.make_venue_url(dbGig.venue)
+
+                gig = { 'band' : dbGig.band, 'bandUrl': bandUrl, 'when' : dbGig.date, 'venue': dbGig.venue, 'venueUrl': venueUrl }
+                gigs.append(gig)
 
         template_vals = { 'path': searchPath, 'track': track, 'hash' : hash, 'gigs' : gigs }
         midnight = startDate + datetime.timedelta(days=1)
@@ -45,10 +47,11 @@ class BandHandler(webapp2.RequestHandler):
 
             gigs = []
             for dbGig in dbGigs:
-                venueUrl = utils.make_venue_url(dbGig.venue)
+                if dbGig.date >= startDate:
+                    venueUrl = utils.make_venue_url(dbGig.venue)
 
-                gig = { 'when' : dbGig.date, 'venue': dbGig.venue, 'venueUrl': venueUrl }
-                gigs.append(gig)
+                    gig = { 'when' : dbGig.date, 'venue': dbGig.venue, 'venueUrl': venueUrl }
+                    gigs.append(gig)
 
             template_vals = { 'path': searchPath, 'track': track, 'band' : band.name, 'gigs' : gigs }
             midnight = startDate + datetime.timedelta(days=1)
@@ -72,10 +75,11 @@ class VenueHandler(webapp2.RequestHandler):
 
             gigs = []
             for dbGig in dbGigs:
-                bandUrl = utils.make_band_url(dbGig.band)
+                if dbGig.date >= startDate:
+                    bandUrl = utils.make_band_url(dbGig.band)
 
-                gig = { 'when' : dbGig.date, 'band': dbGig.band, 'bandUrl': bandUrl }
-                gigs.append(gig)
+                    gig = { 'when' : dbGig.date, 'band': dbGig.band, 'bandUrl': bandUrl }
+                    gigs.append(gig)
 
             template_vals = { 'path': searchPath, 'track': track, 'venue' : venue.name, 'gigs' : gigs }
             

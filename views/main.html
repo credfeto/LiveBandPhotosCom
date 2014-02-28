@@ -21,7 +21,7 @@
 
         <hr />
         <h2>Gigs This Week</h2>
-
+        
         {% for gig in gigs %}
         <p itemscope itemtype="http://schema.org/MusicEvent" class="gig"><span itemprop="startDate" content="{{gig.when|date:"Y-m-d"}}">{{gig.when|date:"D d M"}}</span> - 
             <span itemprop="name"><a href="{{gig.bandUrl}}" itemprop="performers">{{gig.band}}</a> in <a href="{{gig.venueUrl}}">{{gig.venue}}</a></span>

@@ -47,4 +47,4 @@ skip_files:
 pagespeed:
   domains_to_rewrite:
     - www.livebandphotos.com    
-	- livebandphotosuk.appspot.com
+    - livebandphotosuk.appspot.com
