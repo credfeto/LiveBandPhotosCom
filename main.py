@@ -17,7 +17,7 @@ class MainHandler(webapp2.RequestHandler):
 
         gigs = []
         for dbGig in dbGigs:
-            bandUrl = utils.make_band_url(dbgig.band)
+            bandUrl = utils.make_band_url(dbGig.band)
             venueUrl = utils.make_venue_url(dbGig.venue)
 
             gig = { 'band' : dbGig.band, 'bandUrl': bandUrl, 'when' : dbGig.date, 'venue': dbGig.venue, 'venueUrl': venueUrl }
