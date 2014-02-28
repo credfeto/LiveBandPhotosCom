@@ -21,6 +21,11 @@ handlers:
   upload: robots\.txt
   expiration: "100d"
 
+- url: /humans\.txt
+  static_files: humans.txt
+  upload: robots\.txt
+  expiration: "100d"
+
 - url: /tasks/sync
   script: tasksync.app
   login: admin
@@ -38,3 +43,7 @@ skip_files:
 - ^(.*/)?\.sln
 - ^\.gitignore
 - ^\.git/(.*/)?
+
+pagespeed:
+  domains_to_rewrite:
+    - www.livebandphotos.com    

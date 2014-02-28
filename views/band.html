@@ -10,11 +10,13 @@
 {% block body %}
 <!-- Body block -->
 <div class="row">
-    <div class="container">
-        <h2>{{band}} Gigs</h2>
+    <div class="container" itemscope itemtype="http://schema.org/PerformingGroup">
+        <h2><span itemprop="name">{{band}}</span> Gigs</h2>
 
         {% for gig in gigs %}
-        <p class="gig">{{gig.when}} - <a href="{{gig.venueUrl}}">{{gig.venue}}</a></p>
+        <p itemscope itemtype="http://schema.org/MusicEvent" class="gig"><span itemprop="startDate" content="{{gig.when|date:"Y-m-d"}}">{{gig.when|date:"D d M Y"}}</span> - 
+            <span itemprop="name"><a href="{{gig.venueUrl}}">{{gig.venue}}</a></span>
+        </p>
         {% endfor %}
     </div>
 </div>
