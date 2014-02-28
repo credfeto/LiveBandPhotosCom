@@ -75,3 +75,17 @@ def render_template(template_name, template_vals=None):
   })
   template_path = os.path.join("views", template_name)
   return template.render(template_path, template_vals)
+
+def set_cache_headers_expire( headers, lastModified, expires ):
+    EXPIRATION_MASK = "%a, %d %b %Y %H:%M:%S %Z" 
+    
+    #expires = expires.replace(tzinfo=gmt) 
+    #lastModified = lastModified.replace(tzinfo=gmt) 
+    expiryAsDateTime = datetime.datetime.combine(expires, datetime.datetime.min.time()) -  + datetime.timedelta(seconds=1)
+
+    secondsTillExpiry = (expiryAsDateTime - lastModified).total_seconds()
+
+    headers['Cache-Control'] = 'public,max-age=%d' % secondsTillExpiry
+    headers['Last-Modified'] = lastModified.strftime(EXPIRATION_MASK)
+    headers['Expires'] = expiryAsDateTime.strftime(EXPIRATION_MASK) 
+    headers['Pragma'] = 'public'

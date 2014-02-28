@@ -24,6 +24,9 @@ class MainHandler(webapp2.RequestHandler):
             gigs.append(gig)
 
         template_vals = { 'path': searchPath, 'track': track, 'hash' : hash, 'gigs' : gigs }
+        midnight = startDate + datetime.timedelta(days=1)
+        now = datetime.datetime.now()
+        utils.set_cache_headers_expire( self.response.headers, now, midnight )
         self.response.out.write(utils.render_template("main.html", template_vals))
 
 class BandHandler(webapp2.RequestHandler):
@@ -48,6 +51,9 @@ class BandHandler(webapp2.RequestHandler):
                 gigs.append(gig)
 
             template_vals = { 'path': searchPath, 'track': track, 'band' : band.name, 'gigs' : gigs }
+            midnight = startDate + datetime.timedelta(days=1)
+            now = datetime.datetime.now()
+            utils.set_cache_headers_expire( self.response.headers, now, midnight )
             self.response.out.write(utils.render_template("band.html", template_vals))
 
 class VenueHandler(webapp2.RequestHandler):
@@ -72,6 +78,10 @@ class VenueHandler(webapp2.RequestHandler):
                 gigs.append(gig)
 
             template_vals = { 'path': searchPath, 'track': track, 'venue' : venue.name, 'gigs' : gigs }
+            
+            midnight = startDate + datetime.timedelta(days=1)
+            now = datetime.datetime.now()
+            utils.set_cache_headers_expire( self.response.headers, now, midnight )
             self.response.out.write(utils.render_template("venue.html", template_vals))
 
 app = webapp2.WSGIApplication([
