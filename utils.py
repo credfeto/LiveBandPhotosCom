@@ -37,7 +37,8 @@ def make_url( originalPath ):
     
     root =  base.strip();
     
-    replacedWrongSlash = root.replace("\\", "/" )
+    replacedEncodedSpace = root.replace("%20", "-" )
+    replacedWrongSlash = replacedEncodedSpace
     replacedDuplicateHyphens = re.sub(r"[^a-z0-9\-/]", "-", replacedWrongSlash)
     replacedBadChars = re.sub(r"(\-{2,})", "-", replacedDuplicateHyphens )
     replacedEndingHyphens = replacedBadChars.rstrip('-') 
@@ -76,6 +77,16 @@ def render_template(template_name, template_vals=None):
   template_path = os.path.join("views", template_name)
   return template.render(template_path, template_vals)
 
+def redirect_url(path, query_string):
+    if is_development() == False:
+        path = 'http://www.livebandphotos.com' + path
+    if path.endswith( '/' ) == False:
+        path = path + '/'
+    if query_string and len(query_string) > 0:
+        path = path + '?' + query_string
+
+    return path
+
 def set_cache_headers_expire( headers, lastModified, expires ):
     EXPIRATION_MASK = "%a, %d %b %Y %H:%M:%S %Z" 
     
@@ -89,3 +100,4 @@ def set_cache_headers_expire( headers, lastModified, expires ):
     headers['Last-Modified'] = lastModified.strftime(EXPIRATION_MASK)
     headers['Expires'] = expiryAsDateTime.strftime(EXPIRATION_MASK) 
     headers['Pragma'] = 'public'
+

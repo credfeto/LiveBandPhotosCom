@@ -35,6 +35,7 @@
     <Content Include="static\js\fix-iemobile-responsive.js" />
     <Content Include="static\js\html5shiv.js" />
     <Content Include="static\js\respond.min.js" />
+    <Content Include="views\notfound.html" />
     <Content Include="views\base.html" />
     <Content Include="views\band.html" />
     <Content Include="views\venue.html" />
