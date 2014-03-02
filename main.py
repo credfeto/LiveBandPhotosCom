@@ -111,7 +111,7 @@ class VenueHandler(webapp2.RequestHandler):
             self.response.out.write(utils.render_template("venue.html", template_vals))
 
 app = webapp2.WSGIApplication([
-    ('/venue/[\w\-\s,\.]*/', VenueHandler),
-    ('/band/[\w\-\s,\.]*/', BandHandler),
+    ('/[Vv][Ee][Nn][Uu][Ee]/[\w\-\s,\.]*/', VenueHandler),
+    ('/[Bb][Aa][Nn][Dd]/[\w\-\s,\.]*/', BandHandler),
     ('/', MainHandler)
 ], debug=True)
