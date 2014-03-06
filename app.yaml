@@ -31,6 +31,9 @@ handlers:
   login: admin
   secure: optional
 
+- url: /sitemap
+  script: sitemap.app
+
 - url: .*
   script: main.app
 

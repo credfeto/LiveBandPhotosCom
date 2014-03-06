@@ -15,6 +15,7 @@
   <PropertyGroup Condition="'$(Configuration)' == 'Debug'" />
   <PropertyGroup Condition="'$(Configuration)' == 'Release'" />
   <ItemGroup>
+    <Compile Include="sitemap.py" />
     <Compile Include="models.py" />
     <Compile Include="sync.py" />
     <Compile Include="tasksync.py" />
@@ -38,6 +39,7 @@
     <Content Include="views\notfound.html" />
     <Content Include="views\base.html" />
     <Content Include="views\band.html" />
+    <Content Include="views\sitemap.html" />
     <Content Include="views\venue.html" />
     <Content Include="views\main.html" />
   </ItemGroup>
