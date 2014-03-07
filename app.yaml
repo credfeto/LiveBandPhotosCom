@@ -73,6 +73,6 @@ pagespeed:
     - JsOptimize
   disabled_rewriters:
     - DeferJs
-	- InlineImages
+    - InlineImages
 	- CombineHeads
 
