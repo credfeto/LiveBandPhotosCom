@@ -1,4 +1,0 @@
-backends: 
-- name: syncbackend
-  options: dynamic, failfast
-    
