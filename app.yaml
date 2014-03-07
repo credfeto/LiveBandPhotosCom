@@ -66,10 +66,10 @@ pagespeed:
     - RemoveComments
     - RemoveQuotes
     - LeftTrimUrls
-	- CombineCss
-	- MoveCssToHead
-	- MinifyCss
-	- CombineJs
-	- JsOptimize
+    - CombineCss
+    - MoveCssToHead
+    - MinifyCss
+    - CombineJs
+    - JsOptimize
   disabled_rewriters:
-	- DeferJs
+    - DeferJs
