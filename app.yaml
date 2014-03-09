@@ -23,7 +23,7 @@ handlers:
 
 - url: /humans\.txt
   static_files: humans.txt
-  upload: robots\.txt
+  upload: humans\.txt
   expiration: "100d"
 
 - url: /tasks/sync
