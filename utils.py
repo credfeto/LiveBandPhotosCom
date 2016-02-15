@@ -100,4 +100,11 @@ def set_cache_headers_expire( headers, lastModified, expires ):
     headers['Last-Modified'] = lastModified.strftime(EXPIRATION_MASK)
     headers['Expires'] = expiryAsDateTime.strftime(EXPIRATION_MASK) 
     headers['Pragma'] = 'public'
+    headers['Access-Control-Allow-Origin'] = "'self'"
+    headers['Access-Control-Allow-Methods'] = "GET, HEAD, OPTIONS"
+    headers['Content-Security-Policy'] = "frame-ancestors 'self'"
+    headers['X-Frame-Options'] = "SAMEORIGIN"
+    headers['X-XSS-Protection'] = "1; mode=block"
+    headers['X-Content-Type-Options'] = "nosniff"
+    headers['Vary'] = 'DNT'
 
