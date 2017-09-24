@@ -102,9 +102,10 @@ def set_cache_headers_expire( headers, lastModified, expires ):
     headers['Pragma'] = 'public'
     headers['Access-Control-Allow-Origin'] = "'self'"
     headers['Access-Control-Allow-Methods'] = "GET, HEAD, OPTIONS"
-    headers['Content-Security-Policy'] = "frame-ancestors 'self'"
-    headers['X-Frame-Options'] = "SAMEORIGIN"
+    headers['Content-Security-Policy'] = "default-src 'none'; img-src 'self'; style-src 'self' https://fonts.googleapis.com; font-src https://fonts.gstatic.com"
+    headers['X-Frame-Options'] = "DENY"
     headers['X-XSS-Protection'] = "1; mode=block"
     headers['X-Content-Type-Options'] = "nosniff"
     headers['Vary'] = 'DNT'
-
+    headers['strict-transport-security'] = 'max-age=31536000; includeSubdomains; preload'
+    headers['Referrer-Policy'] = 'no-referrer'
