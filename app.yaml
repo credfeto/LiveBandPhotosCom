@@ -70,6 +70,11 @@ handlers:
   secure: always
   redirect_http_response_code: 301
 
+- url: /calendar/.*
+  script: calendar.app
+  secure: always
+  redirect_http_response_code: 301
+
 - url: .*
   script: main.app
   secure: always

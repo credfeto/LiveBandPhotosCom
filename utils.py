@@ -54,6 +54,19 @@ def make_band_url(name):
 def make_venue_url(name):
     return make_url('/venue/' + name)
 
+def make_venue_fragment(name):
+    base = name.lower()
+
+    root = base.strip();
+
+    replacedEncodedSpace = root.replace("%20", "-")
+    replacedWrongSlash = replacedEncodedSpace
+    replacedDuplicateHyphens = re.sub(r"[^a-z0-9\-/]", "-", replacedWrongSlash)
+    replacedBadChars = re.sub(r"(\-{2,})", "-", replacedDuplicateHyphens)
+    replacedEndingHyphens = replacedBadChars.rstrip('-')
+
+    return replacedEndingHyphens
+
 def is_development():
     env = os.environ['SERVER_SOFTWARE']
 

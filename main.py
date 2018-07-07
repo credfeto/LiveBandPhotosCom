@@ -74,7 +74,7 @@ class VenueHandler(webapp2.RequestHandler):
     def get(self):
         track = utils.should_track( self.request.headers )
 
-        venueurl = self.request.path
+        enueurl = self.request.path
         venue = models.Venue.query(models.Venue.url == venueurl).get()
         if venue is None:
             shouldReportError = True
