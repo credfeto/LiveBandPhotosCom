@@ -168,7 +168,7 @@ class CalendarHandler(webapp2.RequestHandler):
                         self.response.out.write('CLASS:PUBLIC\r\n')
                         self.response.out.write('CATEGORIES:GIG,MUSIC\r\n')
                         self.response.out.write(
-                            'DESCRIPTION:Please check with the venue to confirm dates and times.\r\n')
+                            'DESCRIPTION:Whilst every effort is made to make the gig lists on this website as accurate as possible on a website of this size the occasional mistake is bound to slip in. Also occasionally bands change at short notice. Please double check by phoning the pub or visiting the bands own website.\r\n')
 
                         self.response.out.write('END:VEVENT\r\n')
 
