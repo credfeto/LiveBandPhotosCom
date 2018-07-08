@@ -1,1 +1,14 @@
-{% extends "base.html" %}{% block title %}Live Band Photos (Mobile){% endblock %}{% block title1 %}Live Band Photos (Mobile){% endblock %}{% block title2 %}Live Band Photos (Mobile){% endblock %}{% block title3 %}Live Band Photos (Mobile){% endblock %}{% block title4 %}Live Band Photos (Mobile){% endblock %}{% block head %}{% endblock %}{% block body %}<div class="row"><div class="container"><p>This is a cutdown version of livebandphotos.co.uk for use on mobiles. To view the full site please go to <a href="http://www.livebandphotos.co.uk/">Livebandphotos.co.uk</a>.</p></div></div><div class="row"><div class="container"><hr /><h2>Gigs This Week</h2>{% for gig in gigs %}<p itemscope itemtype="http://schema.org/MusicEvent" class="gig"><span itemprop="startDate" content="{{gig.when|date:"Y-m-d"}}">{{gig.when|date:"D d M"}}</span> - <span itemprop="name"><a href="{{gig.bandUrl}}" itemprop="performers">{{gig.band}}</a> in <a href="{{gig.venueUrl}}">{{gig.venue}}</a></span></p>{% endfor %}<p class="home"><a href="http://www.livebandphotos.co.uk/">Live Band Photos Home</a></p></div></div>{% endblock %}
+{% extends "base.html" %}{% block title %}Live Band Photos (Mobile){% endblock %}{% block title1 %}Live Band Photos (Mobile){% endblock %}{% block title2 %}Live Band Photos (Mobile){% endblock %}{% block title3 %}Live Band Photos (Mobile){% endblock %}{% block title4 %}Live Band Photos (Mobile){% endblock %}{% block head %}{% endblock %}{% block body %}
+<div class="row">
+    <div class="container"><p>This is a cutdown version of livebandphotos.co.uk for use on mobiles. To view the full
+        site please go to <a href="http://www.livebandphotos.co.uk/">Livebandphotos.co.uk</a>.</p></div>
+</div>
+<div class="row">
+    <div class="container">
+        <hr/>
+        <h2>Gigs This Week</h2>{% for gig in gigs %}<p itemscope itemtype="http://schema.org/MusicEvent" class="gig">
+        <span itemprop="startDate" content="{{gig.when|date:" Y-m-d"}}">{{gig.when|date:"D d M"}}</span> - <span
+            itemprop="name"><a href="{{gig.band_url}}" itemprop="performers">{{gig.band}}</a> in <a
+            href="{{gig.venue_rl}}">{{gig.venue}}</a></span></p>{% endfor %}<p class="home"><a
+            href="http://www.livebandphotos.co.uk/">Live Band Photos Home</a></p></div>
+</div>{% endblock %}

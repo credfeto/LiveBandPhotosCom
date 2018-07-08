@@ -14,21 +14,21 @@ class MainHandler(webapp2.RequestHandler):
         start_date = datetime.date.today()
         end_date = start_date + datetime.timedelta(days=10)
 
-        db_gigs = models.Gig.query(start_date <= models.Gig.date <= end_date).order(
+        db_gigs = models.Gig.query(models.Gig.date >= start_date and models.Gig.date <= end_date).order(
             models.Gig.date).fetch()
 
         gigs = []
         for db_gig in db_gigs:
 
-            if start_date <= db_gig.date <= end_date:
+            if db_gig.date >= start_date and models.Gig.date <= end_date:
                 band_url = utils.make_band_url(db_gig.band)
                 venue_url = utils.make_venue_url(db_gig.venue)
 
-                gig = {'band': db_gig.band, 'bandUrl': band_url, 'when': db_gig.date, 'venue': db_gig.venue,
-                       'venueUrl': venue_url}
+                gig = {'band': db_gig.band, 'band_url': band_url, 'when': db_gig.date, 'venue': db_gig.venue,
+                       'venue_url': venue_url}
                 gigs.append(gig)
 
-        template_vals = {'path': search_path, 'track': track, 'hash': hash, 'gigs': gig}
+        template_vals = {'path': search_path, 'track': track, 'hash': hash, 'gigs': gigs}
         midnight = start_date + datetime.timedelta(days=1)
         now = datetime.datetime.now()
         utils.set_cache_headers_expire(self.response.headers, now, midnight)
@@ -67,7 +67,7 @@ class BandHandler(webapp2.RequestHandler):
                 if dbGig.date >= start_date:
                     venue_url = utils.make_venue_url(dbGig.venue)
 
-                    gig = {'when': dbGig.date, 'venue': dbGig.venue, 'venueUrl': venue_url}
+                    gig = {'when': dbGig.date, 'venue': dbGig.venue, 'venue_url': venue_url}
                     gigs.append(gig)
 
             template_vals = {'path': band_url, 'track': track, 'band': band.name, 'gigs': gigs}
@@ -109,7 +109,7 @@ class VenueHandler(webapp2.RequestHandler):
                 if db_gig.date >= start_date:
                     band_url = utils.make_band_url(db_gig.band)
 
-                    gig = {'when': db_gig.date, 'band': db_gig.band, 'bandUrl': band_url}
+                    gig = {'when': db_gig.date, 'band': db_gig.band, 'band_url': band_url}
                     gigs.append(gig)
 
             template_vals = {'path': venue, 'track': track, 'venue': venue.name, 'gigs': gigs}
@@ -165,6 +165,11 @@ class CalendarHandler(webapp2.RequestHandler):
                         self.response.out.write('DTSTART:' + date_formatted + 'T210000Z\r\n')
                         self.response.out.write('DTEND:' + date_formatted + 'T235959Z\r\n')
                         self.response.out.write('SUMMARY:' + db_gig.band + ' at ' + db_gig.venue + '\r\n')
+                        self.response.out.write('CLASS:PUBLIC\r\n')
+                        self.response.out.write('CATEGORIES:GIG,MUSIC\r\n')
+                        self.response.out.write(
+                            'DESCRIPTION:Please check with the venue to confirm dates and times.\r\n')
+
                         self.response.out.write('END:VEVENT\r\n')
 
         self.response.out.write('END:VCALENDAR\r\n')
