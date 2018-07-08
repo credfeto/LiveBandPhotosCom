@@ -23,30 +23,30 @@ def isoparse(s):
         year =  s[0:4]
         month = s[5:7]
         day = s[8:10]
-        numericYear = int(year, 10)
-        if numericYear < 2000:
+        numeric_year = int(year, 10)
+        if numeric_year < 2000:
             return None
 
-        return datetime.date( numericYear, int(month,10),int(day, 10) )
+        return datetime.date(numeric_year, int(month, 10), int(day, 10))
     except:
         return None
 
-def make_url( originalPath ):
+def make_url(originalPath):
 
     base = originalPath.lower()
     
     root =  base.strip();
     
-    replacedEncodedSpace = root.replace("%20", "-" )
-    replacedWrongSlash = replacedEncodedSpace
-    replacedDuplicateHyphens = re.sub(r"[^a-z0-9\-/]", "-", replacedWrongSlash)
-    replacedBadChars = re.sub(r"(\-{2,})", "-", replacedDuplicateHyphens )
-    replacedEndingHyphens = replacedBadChars.rstrip('-') 
+    replaced_encoded_space = root.replace("%20", "-" )
+    replaced_wrong_slash = replaced_encoded_space
+    replaced_duplicate_hyphens = re.sub(r"[^a-z0-9\-/]", "-", replaced_wrong_slash)
+    replaced_bad_chars = re.sub(r"(\-{2,})", "-", replaced_duplicate_hyphens )
+    replaced_ending_hyphens = replaced_bad_chars.rstrip('-')
 
-    if replacedEndingHyphens.endswith( '/' ) == False:
-        replacedEndingHyphens = replacedEndingHyphens + '/'
+    if not replaced_ending_hyphens.endswith('/'):
+        replaced_ending_hyphens = replaced_ending_hyphens + '/'
 
-    return replacedEndingHyphens
+    return replaced_ending_hyphens
 
 def make_band_url(name):
    return make_url('/band/' + name)
@@ -59,13 +59,13 @@ def make_venue_fragment(name):
 
     root = base.strip();
 
-    replacedEncodedSpace = root.replace("%20", "-")
-    replacedWrongSlash = replacedEncodedSpace
-    replacedDuplicateHyphens = re.sub(r"[^a-z0-9\-/]", "-", replacedWrongSlash)
-    replacedBadChars = re.sub(r"(\-{2,})", "-", replacedDuplicateHyphens)
-    replacedEndingHyphens = replacedBadChars.rstrip('-')
+    replaced_encoded_space = root.replace("%20", "-")
+    replaced_wrong_slash = replaced_encoded_space
+    replaced_duplicate_hyphens = re.sub(r"[^a-z0-9\-/]", "-", replaced_wrong_slash)
+    replaced_bad_chars = re.sub(r"(\-{2,})", "-", replaced_duplicate_hyphens)
+    replaced_ending_hyphens = replaced_bad_chars.rstrip('-')
 
-    return replacedEndingHyphens
+    return replaced_ending_hyphens
 
 def is_development():
     env = os.environ['SERVER_SOFTWARE']
@@ -91,9 +91,9 @@ def render_template(template_name, template_vals=None):
   return template.render(template_path, template_vals)
 
 def redirect_url(path, query_string):
-    if is_development() == False:
+    if not is_development():
         path = 'http://www.livebandphotos.com' + path
-    if path.endswith( '/' ) == False:
+    if not path.endswith('/'):
         path = path + '/'
     if query_string and len(query_string) > 0:
         path = path + '?' + query_string
