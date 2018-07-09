@@ -1,8 +1,9 @@
 import datetime
+
 import webapp2
-import utils
+
 import models
-from google.appengine.ext import ndb
+import utils
 
 
 class MainHandler(webapp2.RequestHandler):
@@ -63,11 +64,11 @@ class BandHandler(webapp2.RequestHandler):
                 models.Gig.date).fetch()
 
             gigs = []
-            for dbGig in db_gigs:
-                if dbGig.date >= start_date:
-                    venue_url = utils.make_venue_url(dbGig.venue)
+            for db_gig in db_gigs:
+                if db_gig.date >= start_date:
+                    venue_url = utils.make_venue_url(db_gig.venue)
 
-                    gig = {'when': dbGig.date, 'venue': dbGig.venue, 'venue_url': venue_url}
+                    gig = {'when': db_gig.date, 'venue': db_gig.venue, 'venue_url': venue_url}
                     gigs.append(gig)
 
             template_vals = {'path': band_url, 'track': track, 'band': band.name, 'gigs': gigs}
