@@ -7,7 +7,7 @@
     <div class="container">
         <hr/>
         <h2>Gigs This Week</h2>{% for gig in gigs %}<p itemscope itemtype="http://schema.org/MusicEvent" class="gig">
-        <span itemprop="startDate" content="{{gig.when|date:" Y-m-d"}}">{{gig.when|date:"D d M"}}</span> - <span
+        <span itemprop="startDate" content='{{gig.when|date:"Y-m-d"}}'>{{gig.when|date:"D d M"}}</span> - <span
             itemprop="name"><a href="{{gig.band_url}}" itemprop="performers">{{gig.band}}</a> in <a
             href="{{gig.venue_rl}}">{{gig.venue}}</a></span></p>{% endfor %}<p class="home"><a
             href="http://www.livebandphotos.co.uk/">Live Band Photos Home</a></p></div>

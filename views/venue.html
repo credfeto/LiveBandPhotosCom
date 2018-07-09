@@ -17,7 +17,7 @@
     <div class="container"><h3>{{venue}} Gigs</h3>{% for gig in gigs %}<p itemscope
                                                                           itemtype="http://schema.org/MusicEvent"
                                                                           class="gig"><span itemprop="startDate"
-                                                                                            content="{{gig.when|date:Y-m-d}}">
+                                                                                            content='{{gig.when|date:"Y-m-d"}}'>
         {{gig.when|date:"D d M Y"}}
     </span> - <span itemprop="name"><a href="{{gig.band_url}}" itemprop="performers">{{gig.band}}</a></span>
     </p>{% endfor %}
@@ -31,7 +31,7 @@
             double check by phoning the pub or visiting the bands own website.</p>{% for gig in gigs %}<p itemscope
                                                                                                           itemtype="http://schema.org/MusicEvent"
                                                                                                           class="gig">
-            <span itemprop="startDate" content="{{gig.when|date:Y-m-d}}">{{gig.when|date:D d M Y}}</span> - <span
+            <span itemprop="startDate" content='' {{gig.when|date:"Y-m-d"}}'>{{gig.when|date:"D d M Y"}}</span> - <span
                 itemprop="name"><a href="{{gig.bandUrl}}" itemprop="performers">{{gig.band}}</a></span></p>{% endfor %}
     </div>
 </div>{% endif %}{% endblock %}

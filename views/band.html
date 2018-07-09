@@ -4,7 +4,7 @@
             itemprop="name">{{band}}</span> Gigs</h2>{% for gig in gigs %}<p itemscope
                                                                              itemtype="http://schema.org/MusicEvent"
                                                                              class="gig"><span itemprop="startDate"
-                                                                                               content="{{gig.when|date:Y-m-d}}">
+                                                                                               content='{{gig.when|date:"Y-m-d"}}'>
         {{gig.when|date:"D d M Y"}}</span> - <span itemprop="name"><a href="{{gig.venue_url}}">{{gig.venue}}</a></span>
     </p>{% endfor %}
     </div>
