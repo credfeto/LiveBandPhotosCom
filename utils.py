@@ -92,7 +92,7 @@ def render_template(template_name, template_vals=None):
 
 def redirect_url(path, query_string):
     if not is_development():
-        path = 'http://www.livebandphotos.com' + path
+        path = 'https://www.livebandphotos.com' + path
     if not path.endswith('/'):
         path = path + '/'
     if query_string and len(query_string) > 0:
@@ -115,9 +115,11 @@ def set_cache_headers_expire( headers, lastModified, expires ):
     headers['Pragma'] = 'public'
     headers['Access-Control-Allow-Origin'] = "'self'"
     headers['Access-Control-Allow-Methods'] = "GET, HEAD, OPTIONS"
-    headers['Content-Security-Policy'] = "default-src 'none'; img-src 'self'; style-src 'self' https://fonts.googleapis.com; font-src https://fonts.gstatic.com"
+    headers[
+        'Content-Security-Policy'] = "default-src 'none'; img-src 'self'; style-src 'self'; report-uri https://markridgwell.report-uri.com/r/d/csp/enforce"
+    headers['Expect-CT'] = "max-age=0, report=uri=\"https://markridgwell.report-uri.com/r/d/ct/reportOnly\""
     headers['X-Frame-Options'] = "DENY"
-    headers['X-XSS-Protection'] = "1; mode=block"
+    headers['X-XSS-Protection'] = "1; mode=block; report=https://markridgwell.report-uri.com/r/d/xss/enforce"
     headers['X-Content-Type-Options'] = "nosniff"
     headers['Vary'] = 'DNT'
     headers['strict-transport-security'] = 'max-age=31536000; includeSubdomains; preload'
