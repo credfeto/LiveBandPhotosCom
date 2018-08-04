@@ -127,8 +127,8 @@ class CalendarHandler(webapp2.RequestHandler):
                     start_time = utils.get_start_time(when)
                     end_time = utils.get_end_time(when)
 
-                    start_date_formatted = start_time.strftime('%Y%m%dT%H%M%SZ')
-                    end_date_formatted = end_time.strftime('%Y%m%dT%H%M%SZ')
+                    start_date_formatted = start_time.strftime('%Y%m%dT%H%M00Z')
+                    end_date_formatted = end_time.strftime('%Y%m%dT%H%M00Z')
                     id = start_date_formatted + '.' + utils.make_venue_fragment(
                             db_gig.venue) + '@livebandphotos.com'
 
