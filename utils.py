@@ -1,10 +1,11 @@
-import os
 import datetime
 import hashlib
+import os
 import re
 
-from google.appengine.ext import webapp
+import pytz
 from google.appengine.ext.webapp import template
+
 
 def should_track( headers ):
 
@@ -100,17 +101,19 @@ def redirect_url(path, query_string):
 
     return path
 
-def set_cache_headers_expire( headers, lastModified, expires ):
-    EXPIRATION_MASK = "%a, %d %b %Y %H:%M:%S %Z" 
+
+def set_cache_headers_expire(headers, expires):
+    last_modified = datetime.datetime.now()
+    EXPIRATION_MASK = "%a, %d %b %Y %H:%M:%S %Z"
     
     #expires = expires.replace(tzinfo=gmt) 
     #lastModified = lastModified.replace(tzinfo=gmt) 
     expiryAsDateTime = datetime.datetime.combine(expires, datetime.datetime.min.time()) -  + datetime.timedelta(seconds=1)
 
-    secondsTillExpiry = (expiryAsDateTime - lastModified).total_seconds()
+    secondsTillExpiry = (expiryAsDateTime - last_modified).total_seconds()
 
     headers['Cache-Control'] = 'public,max-age=%d' % secondsTillExpiry
-    headers['Last-Modified'] = lastModified.strftime(EXPIRATION_MASK)
+    headers['Last-Modified'] = last_modified.strftime(EXPIRATION_MASK)
     headers['Expires'] = expiryAsDateTime.strftime(EXPIRATION_MASK) 
     headers['Pragma'] = 'public'
     headers['Access-Control-Allow-Origin'] = "'self'"
@@ -124,3 +127,17 @@ def set_cache_headers_expire( headers, lastModified, expires ):
     headers['Vary'] = 'DNT'
     headers['strict-transport-security'] = 'max-age=31536000; includeSubdomains; preload'
     headers['Referrer-Policy'] = 'no-referrer'
+
+
+def get_start_time(when):
+    tz = pytz.timezone('Europe/London')
+    # t = datetime.datetime(year=when.year, month=when.month, day=when.day, hours=21, minutes=0)
+    t = datetime.datetime.combine(when, datetime.time(hour=21, minute=00))
+    return tz.localize(t, is_dst=None).astimezone(pytz.utc)
+
+
+def get_end_time(when):
+    tz = pytz.timezone('Europe/London')
+    # t = datetime.datetime(year=when.year,month=when.month,day=when.day,hours=23,minutes=59)
+    t = datetime.datetime.combine(when, datetime.time(hour=23, minute=59))
+    return tz.localize(t, is_dst=None).astimezone(pytz.utc)

@@ -31,8 +31,7 @@ class MainHandler(webapp2.RequestHandler):
 
         template_vals = {'path': search_path, 'track': track, 'hash': hash, 'gigs': gigs}
         midnight = start_date + datetime.timedelta(days=1)
-        now = datetime.datetime.now()
-        utils.set_cache_headers_expire(self.response.headers, now, midnight)
+        utils.set_cache_headers_expire(self.response.headers, midnight)
         self.response.out.write(utils.render_template("main.html", template_vals))
 
 
@@ -43,20 +42,10 @@ class BandHandler(webapp2.RequestHandler):
         band_url = self.request.path
         band = models.Band.query(models.Band.url == band_url).get()
         if band is None:
-            should_report_error = True
-            new_search_path = utils.make_url(band_url)
-            band = models.Band.query(models.Band.url == new_search_path).get()
-            if band is not None:
-                should_report_error = False
-                self.response.headers['Cache-Control'] = 'public,max-age=%d' % 86400
-                self.response.headers['Pragma'] = 'public'
-                self.redirect(utils.redirect_url(new_search_path, self.request.query_string), permanent=True)
-
-            if should_report_error:
-                template_vals = {'path': band_url, 'suggestedPath': new_search_path, 'track': track, 'hash': hash,
-                                 'showShare': False}
-                self.response.out.write(utils.render_template("notfound.html", template_vals))
-                self.response.set_status(404)
+            template_vals = {'path': band_url, 'suggestedPath': band_url, 'track': track, 'hash': hash,
+                             'showShare': False}
+            self.response.out.write(utils.render_template("notfound.html", template_vals))
+            self.response.set_status(404)
 
         else:
             start_date = datetime.date.today()
@@ -73,8 +62,7 @@ class BandHandler(webapp2.RequestHandler):
 
             template_vals = {'path': band_url, 'track': track, 'band': band.name, 'gigs': gigs}
             midnight = start_date + datetime.timedelta(days=1)
-            now = datetime.datetime.now()
-            utils.set_cache_headers_expire(self.response.headers, now, midnight)
+            utils.set_cache_headers_expire(self.response.headers, midnight)
             self.response.out.write(utils.render_template("band.html", template_vals))
 
 
@@ -85,20 +73,10 @@ class VenueHandler(webapp2.RequestHandler):
         venue_url = self.request.path
         venue = models.Venue.query(models.Venue.url == venue_url).get()
         if venue is None:
-            should_report_error = True
-            new_search_path = utils.make_url(venue)
-            venue = models.Venue.query(models.Venue.url == new_search_path).get()
-            if venue is not None:
-                should_report_error = False
-                self.response.headers['Cache-Control'] = 'public,max-age=%d' % 86400
-                self.response.headers['Pragma'] = 'public'
-                self.redirect(utils.redirect_url(new_search_path, self.request.query_string), permanent=True)
-
-            if should_report_error:
-                template_vals = {'path': venue, 'suggestedPath': new_search_path, 'track': track, 'hash': hash,
-                                 'showShare': False}
-                self.response.out.write(utils.render_template("notfound.html", template_vals))
-                self.response.set_status(404)
+            template_vals = {'path': venue, 'suggestedPath': venue_url, 'track': track, 'hash': hash,
+                             'showShare': False}
+            self.response.out.write(utils.render_template("notfound.html", template_vals))
+            self.response.set_status(404)
 
         else:
             start_date = datetime.date.today()
@@ -117,7 +95,7 @@ class VenueHandler(webapp2.RequestHandler):
 
             midnight = start_date + datetime.timedelta(days=1)
             now = datetime.datetime.now()
-            utils.set_cache_headers_expire(self.response.headers, now, midnight)
+            utils.set_cache_headers_expire(self.response.headers, midnight)
             self.response.out.write(utils.render_template("venue.html", template_vals))
 
 
@@ -129,11 +107,8 @@ class CalendarHandler(webapp2.RequestHandler):
         start_date = datetime.date.today()
         db_gigs = models.Gig.query(models.Gig.date >= start_date).order(models.Gig.date).fetch()
 
-        date_test = start_date.strftime('%Y%m%d')
-
         midnight = start_date + datetime.timedelta(days=1)
-        now = datetime.datetime.now()
-        utils.set_cache_headers_expire(self.response.headers, now, midnight)
+        utils.set_cache_headers_expire(self.response.headers, midnight)
         self.response.headers['Content-Type'] = 'text/calendar'
         self.response.out.write('BEGIN:VCALENDAR\r\n')
         self.response.out.write('VERSION:2.0\r\n')
@@ -147,12 +122,14 @@ class CalendarHandler(webapp2.RequestHandler):
             if db_gig.date >= start_date:
 
                 if db_gig.venue.lower().endswith(', ' + town.lower()):
-                    band_url = utils.make_band_url(db_gig.band)
-                    venue_url = utils.make_venue_url(db_gig.venue)
 
                     when = db_gig.date
-                    date_formatted = when.strftime('%Y%m%d')
-                    id = date_formatted + '.' + utils.make_venue_fragment(
+                    start_time = utils.get_start_time(when)
+                    end_time = utils.get_end_time(when)
+
+                    start_date_formatted = start_time.strftime('%Y%m%dT%H%M:%sZ')
+                    end_date_formatted = end_time.strftime('%Y%m%dT%H%M:%sZ')
+                    id = start_date_formatted + '.' + utils.make_venue_fragment(
                             db_gig.venue) + '@livebandphotos.com'
 
                     if id not in ids:
@@ -162,9 +139,9 @@ class CalendarHandler(webapp2.RequestHandler):
 
                         self.response.out.write(
                             'UID:' + id + '\r\n')
-                        self.response.out.write('DTSTAMP:' + date_formatted + 'T210000Z\r\n')
-                        self.response.out.write('DTSTART:' + date_formatted + 'T210000Z\r\n')
-                        self.response.out.write('DTEND:' + date_formatted + 'T235959Z\r\n')
+                        self.response.out.write('DTSTAMP:' + start_date_formatted + '\r\n')
+                        self.response.out.write('DTSTART:' + start_date_formatted + '\r\n')
+                        self.response.out.write('DTEND:' + end_date_formatted + '\r\n')
                         self.response.out.write('SUMMARY:' + db_gig.band + ' at ' + db_gig.venue + '\r\n')
                         self.response.out.write('CLASS:PUBLIC\r\n')
                         self.response.out.write('CATEGORIES:GIG,MUSIC\r\n')
