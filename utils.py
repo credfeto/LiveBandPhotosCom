@@ -119,7 +119,7 @@ def set_cache_headers_expire(headers, expires):
     headers['Access-Control-Allow-Origin'] = "'self'"
     headers['Access-Control-Allow-Methods'] = "GET, HEAD, OPTIONS"
     headers[
-        'Content-Security-Policy'] = "default-src 'none'; img-src 'self'; style-src 'self'; report-uri https://markridgwell.report-uri.com/r/d/csp/enforce"
+        'Content-Security-Policy'] = "default-src 'none'; img-src 'self'; style-src 'self'; script-src 'self' https://ajax.cloudflare.com; report-uri https://markridgwell.report-uri.com/r/d/csp/enforce"
     headers['Expect-CT'] = "max-age=0, report=uri=\"https://markridgwell.report-uri.com/r/d/ct/reportOnly\""
     headers['X-Frame-Options'] = "DENY"
     headers['X-XSS-Protection'] = "1; mode=block; report=https://markridgwell.report-uri.com/r/d/xss/enforce"
