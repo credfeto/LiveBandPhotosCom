@@ -32,6 +32,6 @@
                                                                                                           itemtype="http://schema.org/MusicEvent"
                                                                                                           class="gig">
             <span itemprop="startDate" content='' {{gig.when|date:"Y-m-d"}}'>{{gig.when|date:"D d M Y"}}</span> - <span
-                itemprop="name"><a href="{{gig.bandUrl}}" itemprop="performers">{{gig.band}}</a></span></p>{% endfor %}
+                itemprop="name"><a href="{{gig.band_url}}" itemprop="performers">{{gig.band}}</a></span></p>{% endfor %}
     </div>
 </div>{% endif %}{% endblock %}
