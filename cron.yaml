@@ -1,5 +1,5 @@
 cron:
 - description: Get latest DB contents from liveBandPhotos.co.uk and update local
-  url: /tasks/sync    
+  url: /tasks/sync
   schedule: every 24 hours
 
