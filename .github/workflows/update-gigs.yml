@@ -31,8 +31,7 @@ jobs:
         SOURCE_PUSH_TOKEN: ${{ secrets.SOURCE_PUSH_TOKEN }}
       run: |-
         python updater/download.py
-        cat README.md
-    - name: Commit and push if README changed
+    - name: Commit and push if gigs.xml changed
       run: |-
         git diff
         git config --global user.email "gig-bot@example.com"
