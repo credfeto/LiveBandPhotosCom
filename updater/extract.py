@@ -1,3 +1,4 @@
+from chameleon import PageTemplateLoader
 import datetime
 import os
 import pathlib
@@ -8,6 +9,8 @@ import xml.etree.ElementTree as et
 root = pathlib.Path(__file__).parent.resolve()
 today = datetime.date.today()
 now = datetime.datetime.now()
+
+templates = PageTemplateLoader(os.path.join(root, "templates"))
 
 def isoparse(s):
   try:
@@ -59,6 +62,23 @@ def make_venue_fragment(name):
 
     return replaced_ending_hyphens
 
+def build_band_page(band_url, band_name, gigs):
+
+  band_template = templates['band.pt']
+
+
+  band_gigs = []
+  for gig in gigs:
+    gbu = make_band_url(gig['band'])
+    # print(gbu)
+    if gbu == band_url:
+      band_gigs.append(gig)
+      print(gig['venue'])
+
+  page = band_template(path=band_url, track=False, band=band_name, gigs=band_gigs)
+  print(page)
+
+
 if __name__ == "__main__":
 
   gigs_file = root / "gigs.xml"
@@ -107,3 +127,5 @@ if __name__ == "__main__":
 
   print("Total Gigs: " +str(found_gigs))
   print("Relevant Gigs: " +str(relevant_gigs))
+
+  build_band_page('/band/reboot/', 'Reboot', gigs)

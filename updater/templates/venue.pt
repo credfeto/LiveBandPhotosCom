@@ -1,0 +1,37 @@
+{% extends "base.html" %}{% block title %}{{venue}} - Live Band Photos Mobile{% endblock %}{% block title1 %}{{venue}} - Live Band Photos Mobile{% endblock %}{% block title2 %}{{venue}} - Live Band Photos Mobile{% endblock %}{% block title3 %}{{venue}} - Live Band Photos Mobile{% endblock %}{% block title4 %}{{venue}} - Live Band Photos Mobile{% endblock %}{% block head %}{% endblock %}{% block body %}{% if address %}
+<div class="row">
+    <div class="container" itemscope itemtype="http://schema.org/Place"><h2><span itemprop="name">{{venue}}</span>}</h2>
+        <p>Whilst every effort is made to make the gig lists on this website as accurate as possible on a website of
+            this size the occasional mistake is bound to slip in. Also occasionally bands change at short notice. Please
+            double check by phoning the pub or visiting the bands own website.</p>
+        <div itemprop="address" itemscope itemtype="http://schema.org/PostalAddress"><p itemprop="streetAddress">
+            {{address.line1}}</p>
+            <p itemprop="addressLocality">{{address.town}}</p>
+            <p itemprop="addressRegion">{{address.county}}</p>
+            <p itemprop="postalCode">{{address.postcode}}</p>{% if address.phonenumber %}<p>Phone Number: <span
+                    itemprop="telephone">{{address.phonenumber}}</span></p>{% endif %}
+        </div>
+    </div>
+</div>
+<div class="row">
+    <div class="container"><h3>{{venue}} Gigs</h3>{% for gig in gigs %}<p itemscope
+                                                                          itemtype="http://schema.org/MusicEvent"
+                                                                          class="gig"><span itemprop="startDate"
+                                                                                            content='{{gig.when|date:"Y-m-d"}}'>
+        {{gig.when|date:"D d M Y"}}
+    </span> - <span itemprop="name"><a href="{{gig.band_url}}" itemprop="performers">{{gig.band}}</a></span>
+    </p>{% endfor %}
+    </div>
+</div>{% else %}
+<div class="row">
+    <div class="container" itemscope itemtype="http://schema.org/Place"><h2><span itemprop="name">{{venue}}</span> Gigs
+    </h2>
+        <p>Whilst every effort is made to make the gig lists on this website as accurate as possible on a website of
+            this size the occasional mistake is bound to slip in. Also occasionally bands change at short notice. Please
+            double check by phoning the pub or visiting the bands own website.</p>{% for gig in gigs %}<p itemscope
+                                                                                                          itemtype="http://schema.org/MusicEvent"
+                                                                                                          class="gig">
+            <span itemprop="startDate" content='' {{gig.when|date:"Y-m-d"}}'>{{gig.when|date:"D d M Y"}}</span> - <span
+                itemprop="name"><a href="{{gig.band_url}}" itemprop="performers">{{gig.band}}</a></span></p>{% endfor %}
+    </div>
+</div>{% endif %}{% endblock %}
