@@ -1,14 +1,20 @@
-{% extends "base.html" %}{% block title %}Live Band Photos (Mobile){% endblock %}{% block title1 %}Live Band Photos (Mobile){% endblock %}{% block title2 %}Live Band Photos (Mobile){% endblock %}{% block title3 %}Live Band Photos (Mobile){% endblock %}{% block title4 %}Live Band Photos (Mobile){% endblock %}{% block head %}{% endblock %}{% block body %}
-<div class="row">
-    <div class="container"><p>This is a cutdown version of livebandphotos.co.uk for use on mobiles. To view the full
-        site please go to <a href="http://www.livebandphotos.co.uk/">Livebandphotos.co.uk</a>.</p></div>
-</div>
-<div class="row">
-    <div class="container">
-        <hr/>
-        <h2>Gigs This Week</h2>{% for gig in gigs %}<p itemscope itemtype="http://schema.org/MusicEvent" class="gig">
-        <span itemprop="startDate" content='{{gig.when|date:"Y-m-d"}}'>{{gig.when|date:"D d M"}}</span> - <span
-            itemprop="name"><a href="{{gig.band_url}}" itemprop="performers">{{gig.band}}</a> in <a
-            href="{{gig.venue_url}}">{{gig.venue}}</a></span></p>{% endfor %}<p class="home"><a
-            href="http://www.livebandphotos.co.uk/">Live Band Photos Home</a></p></div>
-</div>{% endblock %}
+<metal:main use-macro="load: base.pt">
+    <title metal:fill-slot="title">Live Band Photos Mobile</title>
+    <h1 metal:fill-slot="title_heading">Live Band Photos Mobile</h1>
+    <p metal:fill-slot="content">
+        <div class="row">
+            <div class="container">
+                <h2>Gigs this week</h2>
+
+                <div tal:condition="gigs">
+    <p class="gig" tal:repeat="item gigs">
+        <span tal:content='item.date.strftime("%a %d %b")'></span>
+        -
+        <span itemprop="name"><a href="${item.band_url}" tal:content="item.band"></a></span>
+        in
+        <span itemprop="name"><a href="${item.venue_url}" tal:content="item.venue"></a></span>
+    </p>
+    </div>
+    </div>
+    </p>
+</metal:main>
