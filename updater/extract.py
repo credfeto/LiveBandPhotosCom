@@ -82,8 +82,8 @@ def build_band_page(band_url, band_name, gigs):
 
     band_gigs = []
     for gig in gigs:
-        gbu = make_band_url(gig['band'])
-        if gbu == band_url:
+        gig_band_url = gig['band_url']
+        if gig_band_url == band_url:
             band_gigs.append(gig)
 
     print(band_url)
@@ -98,8 +98,8 @@ def build_venue_page(venue_url, venue_name, gigs):
 
     venue_gigs = []
     for gig in gigs:
-        gvu = make_venue_url(gig['venue'])
-        if gvu == venue_url:
+        gig_venue_url = gig['venue_url']
+        if gig_venue_url == venue_url:
             venue_gigs.append(gig)
 
     print(venue_url)
