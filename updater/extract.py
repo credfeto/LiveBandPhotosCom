@@ -8,6 +8,7 @@ import xml.etree.ElementTree as et
 
 root = pathlib.Path(__file__).parent.resolve()
 templates_path = os.path.join(root, "templates")
+destination_base = os.path.join(pathlib.Path(__file__).parent.parent.resolve(), "dst")
 today = datetime.date.today()
 now = datetime.datetime.now()
 templates = PageTemplateLoader(templates_path)
@@ -54,11 +55,11 @@ def make_venue_url(name):
 
 
 def make_venue_fragment(name):
-    base = name.lower()
+    name_base = name.lower()
 
-    root = base.strip();
+    name_root = name_base.strip();
 
-    replaced_encoded_space = root.replace("%20", "-")
+    replaced_encoded_space = name_root.replace("%20", "-")
     replaced_wrong_slash = replaced_encoded_space
     replaced_duplicate_hyphens = re.sub(r"[^a-z0-9\-/]", "-", replaced_wrong_slash)
     replaced_bad_chars = re.sub(r"(\-{2,})", "-", replaced_duplicate_hyphens)
@@ -73,13 +74,24 @@ def build_band_page(band_url, band_name, gigs):
     band_gigs = []
     for gig in gigs:
         gbu = make_band_url(gig['band'])
-        # print(gbu)
         if gbu == band_url:
             band_gigs.append(gig)
             print(gig['venue'])
 
     page = band_template(path=band_url, track=False, band=band_name, gigs=band_gigs)
-    print(page)
+
+    print(band_url)
+    band_fragments = band_url[1:-1].split("/")
+
+    band_output_folder = destination_base
+    for fragment in band_fragments:
+        band_output_folder = os.path.join(band_output_folder, fragment)
+
+    os.mkdir(band_output_folder)
+
+    band_index_html = band_output_folder / "index.html"
+
+    band_index_html.open("w").write(page)
 
 
 if __name__ == "__main__":
@@ -117,7 +129,9 @@ if __name__ == "__main__":
                 'id': parsed_id,
                 'band': band_name,
                 'venue': venue_name,
-                'date': parsed_date
+                'date': parsed_date,
+                'band_url': make_band_url(band_name),
+                'venue_url': make_venue_url(band_name)
             })
 
     for band in bands:
@@ -130,5 +144,6 @@ if __name__ == "__main__":
     print("Relevant Gigs: " + str(relevant_gigs))
 
     print(templates_path)
+    print(destination_base)
 
     build_band_page('/band/reboot/', 'Reboot', gigs)

@@ -1,5 +1,6 @@
-<metal:main use-macro="load: main.pt">
-    <p metal:fill-slot="title">${band} - Live Band Photos Mobile</p>
+<metal:main use-macro="load: base.pt">
+    <title metal:fill-slot="title">${band} - Live Band Photos Mobile</title>
+    <h1 metal:fill-slot="title_heading">${band} - Live Band Photos Mobile</h1>
     <p metal:fill-slot="content">
         <div class="row">
             <div class="container">
@@ -9,7 +10,7 @@
                 <p  class="gig" tal:repeat="item gigs">
                     <span tal:content='item.date.strftime("%a %d %b")'></span>
                     -
-                    <span itemprop="name"><a href="item.venue" tal:content="item.venue"></a></span>
+                    <span itemprop="name"><a href="${item.venue_url}" tal:content="item.venue"></a></span>
                 </p>
             </div>
         </div>
