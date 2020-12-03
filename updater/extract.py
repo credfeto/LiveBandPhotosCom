@@ -132,18 +132,29 @@ def build_index_page(gigs):
     output_page('/', page)
 
 def build_all():
+    bands, venues, gigs = extract_gigs()
+
+    print(templates_path)
+    print(destination_base)
+
+    build_index_page(gigs)
+
+    for band in bands:
+        build_band_page(band, bands[band], gigs)
+
+    for venue in venues:
+        build_venue_page(venue, venues[venue], gigs)
+
+
+def extract_gigs():
     gigs_file = root / "gigs.xml"
-
     gigs_root = et.ElementTree(file=gigs_file)
-
     bands = {}
     venues = {}
     gigs = []
-
     found_gigs = 0
     relevant_gigs = 0
     bands_xml = gigs_root.findall(".//table[@name='tempgig']/records/record")
-
     for gig_xml in bands_xml:
         found_gigs = found_gigs + 1
 
@@ -168,22 +179,11 @@ def build_all():
                 'band_url': make_band_url(band_name),
                 'venue_url': make_venue_url(venue_name)
             })
-
     gigs = sort_gigs_by_date(gigs)
-
     print("Total Gigs: " + str(found_gigs))
     print("Relevant Gigs: " + str(relevant_gigs))
 
-    print(templates_path)
-    print(destination_base)
-
-    build_index_page(gigs)
-
-    for band in bands:
-        build_band_page(band, bands[band], gigs)
-
-    for venue in venues:
-        build_venue_page(venue, venues[venue], gigs)
+    return bands, venues, gigs
 
 
 if __name__ == "__main__":
