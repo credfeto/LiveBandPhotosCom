@@ -7,7 +7,7 @@
       <ul>
         <li tal:repeat="item gigs">
                   <p tal:content="item.venue" />
-                  <p tal:content="item.date" />
+                  <p tal:content='item.date.strftime("%a %d %b")' />
         </li>
       </ul>
     </div>
