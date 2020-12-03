@@ -4,6 +4,7 @@ import pathlib
 import re
 import xml.etree.ElementTree as et
 
+import htmlmin
 from chameleon import PageTemplateLoader
 
 root = pathlib.Path(__file__).parent.resolve()
@@ -74,6 +75,9 @@ def output_page(url, page):
         output_folder = output_folder / fragment
     create_folder(output_folder)
     band_index_html = output_folder / "index.html"
+
+    page = htmlmin.minify(page, remove_empty_space=True)
+
     write_file(band_index_html, page)
 
 

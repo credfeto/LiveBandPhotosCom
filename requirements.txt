@@ -1,1 +1,2 @@
 chameleon==3.8.1
+htmlmin==0.1.12
