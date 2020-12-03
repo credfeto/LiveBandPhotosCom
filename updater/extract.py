@@ -11,6 +11,7 @@ root = pathlib.Path(__file__).parent.resolve()
 templates_path = os.path.join(root, "templates")
 destination_base = pathlib.Path(root).parent.resolve() / "dst"
 today = datetime.date.today()
+limit = today + datetime.timedelta(days=10)
 now = datetime.datetime.now()
 templates = PageTemplateLoader(templates_path)
 
@@ -96,10 +97,6 @@ def build_band_page(band_url, band_name, gigs):
 
     print(band_url)
 
-    if len(band_gigs) > 1:
-        print(" - Total Gigs: " + str(len(band_gigs)))
-        band_gigs = sort_gigs_by_date(band_gigs)
-
     page = band_template(path=band_url, track=False, band=band_name, gigs=band_gigs)
 
     output_page(band_url, page)
@@ -116,16 +113,23 @@ def build_venue_page(venue_url, venue_name, gigs):
 
     print(venue_url)
 
-    if len(venue_gigs) > 1:
-        print(" - Total Gigs: " + str(len(venue_gigs)))
-        venue_gigs = sort_gigs_by_date(venue_gigs)
-
     page = venue_template(path=venue_url, track=False, venue=venue_name, gigs=venue_gigs)
 
     output_page(venue_url, page)
 
 
+def build_index_page(gigs):
+    main_template = templates['main.pt']
 
+    main_gigs = []
+    for gig in gigs:
+        date = gig['date']
+        if date <= limit:
+            main_gigs.append(gig)
+
+    page = main_template(gigs=main_gigs)
+
+    output_page('/', page)
 
 def build_all():
     gigs_file = root / "gigs.xml"
@@ -165,11 +169,15 @@ def build_all():
                 'venue_url': make_venue_url(venue_name)
             })
 
+    gigs = sort_gigs_by_date(gigs)
+
     print("Total Gigs: " + str(found_gigs))
     print("Relevant Gigs: " + str(relevant_gigs))
 
     print(templates_path)
     print(destination_base)
+
+    build_index_page(gigs)
 
     for band in bands:
         build_band_page(band, bands[band], gigs)
