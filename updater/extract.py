@@ -163,6 +163,7 @@ def extract_gigs():
                 'band_url': make_band_url(band_name),
                 'venue_url': make_venue_url(venue_name)
             })
+
     gigs = sort_gigs_by_date(gigs)
     print("Total Gigs: " + str(found_gigs))
     print("Relevant Gigs: " + str(relevant_gigs))
