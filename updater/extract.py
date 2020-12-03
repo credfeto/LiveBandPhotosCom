@@ -69,6 +69,8 @@ def write_file(file_name, contents):
 
 
 def output_page(url, page):
+    print(url)
+
     fragments = url[1:-1].split("/")
     output_folder = destination_base
     for fragment in fragments:
@@ -95,8 +97,6 @@ def build_band_page(band_url, band_name, gigs):
         if gig_band_url == band_url:
             band_gigs.append(gig)
 
-    print(band_url)
-
     page = band_template(path=band_url, track=False, band=band_name, gigs=band_gigs)
 
     output_page(band_url, page)
@@ -110,8 +110,6 @@ def build_venue_page(venue_url, venue_name, gigs):
         gig_venue_url = gig['venue_url']
         if gig_venue_url == venue_url:
             venue_gigs.append(gig)
-
-    print(venue_url)
 
     page = venue_template(path=venue_url, track=False, venue=venue_name, gigs=venue_gigs)
 
