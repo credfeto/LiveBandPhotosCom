@@ -131,20 +131,6 @@ def build_index_page(gigs):
 
     output_page('/', page)
 
-def build_all():
-    bands, venues, gigs = extract_gigs()
-
-    print(templates_path)
-    print(destination_base)
-
-    build_index_page(gigs)
-
-    for band in bands:
-        build_band_page(band, bands[band], gigs)
-
-    for venue in venues:
-        build_venue_page(venue, venues[venue], gigs)
-
 
 def extract_gigs():
     gigs_file = root / "gigs.xml"
@@ -184,6 +170,21 @@ def extract_gigs():
     print("Relevant Gigs: " + str(relevant_gigs))
 
     return bands, venues, gigs
+
+
+def build_all():
+    bands, venues, gigs = extract_gigs()
+
+    print(templates_path)
+    print(destination_base)
+
+    build_index_page(gigs)
+
+    for band in bands:
+        build_band_page(band, bands[band], gigs)
+
+    for venue in venues:
+        build_venue_page(venue, venues[venue], gigs)
 
 
 if __name__ == "__main__":
