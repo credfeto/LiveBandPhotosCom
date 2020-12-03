@@ -2,24 +2,17 @@
     <title metal:fill-slot="title">${venue} - Live Band Photos Mobile</title>
     <h1 metal:fill-slot="title_heading">${venue} - Live Band Photos Mobile</h1>
     <p metal:fill-slot="content">
-<div class="row">
-    <div class="container" itemscope itemtype="http://schema.org/Place"><h2><span itemprop="name">{{venue}}</span>}</h2>
-        <p>Whilst every effort is made to make the gig lists on this website as accurate as possible on a website of
-            this size the occasional mistake is bound to slip in. Also occasionally bands change at short notice. Please
-            double check by phoning the pub or visiting the bands own website.</p>
-    </div>
-</div>
-    <div class="row">
-        <div class="container">
-            <h2><span>${venue}</span> Gigs</h2>
+        <div class="row">
+            <div class="container">
+                <h2><span>${venue}</span> Gigs</h2>
 
-            <div tal:condition="gigs">
-                <p class="gig" tal:repeat="item gigs">
-                    <span tal:content='item.date.strftime("%a %d %b")'></span>
-                    -
-                    <span itemprop="name"><a href="${item.band_url}" tal:content="item.band"></a></span>
-                </p>
-            </div>
-        </div>
+                <div tal:condition="gigs">
+    <p class="gig" tal:repeat="item gigs">
+        <span tal:content='item.date.strftime("%a %d %b")'></span>
+        -
+        <span itemprop="name"><a href="${item.band_url}" tal:content="item.band"></a></span>
+    </p>
     </div>
+    </div>
+    </p>
 </metal:main>

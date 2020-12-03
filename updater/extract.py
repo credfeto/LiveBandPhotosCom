@@ -85,7 +85,6 @@ def build_band_page(band_url, band_name, gigs):
         gbu = make_band_url(gig['band'])
         if gbu == band_url:
             band_gigs.append(gig)
-            print(gig['venue'])
 
     print(band_url)
 
@@ -102,7 +101,6 @@ def build_venue_page(venue_url, venue_name, gigs):
         gvu = make_venue_url(gig['venue'])
         if gvu == venue_url:
             venue_gigs.append(gig)
-            print(gig['band'])
 
     print(venue_url)
 
@@ -149,20 +147,17 @@ def build_all():
                 'venue_url': make_venue_url(venue_name)
             })
 
-    for band in bands:
-        build_band_page(band, bands[band], gigs)
-
-    for venue in venues:
-        # build_venue_page(venue, venues[venue], gigs)
-        print(venue)
-
     print("Total Gigs: " + str(found_gigs))
     print("Relevant Gigs: " + str(relevant_gigs))
 
     print(templates_path)
     print(destination_base)
 
-    build_venue_page('/venue/ye-olde-smack-leigh-on-sea/', 'Ye Olde Smack, Leigh on Sea', gigs)
+    for band in bands:
+        build_band_page(band, bands[band], gigs)
+
+    for venue in venues:
+        build_venue_page(venue, venues[venue], gigs)
 
 
 if __name__ == "__main__":

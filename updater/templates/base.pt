@@ -1,9 +1,9 @@
 <!DOCTYPE html>
-<html xmlns:og="http://ogp.me/ns#" xmlns:fb="https://www.facebook.com/2008/fbml" xmlns="http://www.w3.org/1999/xhtml"
+<html xmlns="http://www.w3.org/1999/xhtml"
       xml:lang="en" lang="en">
 <head>
     <meta charset="utf-8"/>
-    <metal:content define-slot="title" />
+    <metal:content define-slot="title"/>
     <meta property="fb:app_id" content="272719132852965"/>
     <meta property="og:type" content="article"/>
     <meta property="og:site_name" content="www.livebandphotos.com"/>
@@ -19,7 +19,6 @@
     <link rel="shortcut icon" href="https://www.livebandphotos.com/favicon.ico" type="image/x-icon"/>
     <link type="text/plain" rel="author" href="https://www.livebandphotos.com/humans.txt"/>
     <link rel="author" href="https://plus.google.com/+livebandphotos/?rel=author"/>
-    <link href="https://www.livebandphotos.com{{path}}" rel="canonical"/>
     <metal:content define-slot="head" />
 </head>
 <body>
