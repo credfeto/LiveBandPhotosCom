@@ -77,6 +77,10 @@ def output_page(url, page):
     write_file(band_index_html, page)
 
 
+def sort_gigs_by_date(gigs):
+    return sorted(gigs, key=lambda x: x['date'], reverse=False)
+
+
 def build_band_page(band_url, band_name, gigs):
     band_template = templates['band.pt']
 
@@ -87,6 +91,10 @@ def build_band_page(band_url, band_name, gigs):
             band_gigs.append(gig)
 
     print(band_url)
+
+    if len(band_gigs) > 1:
+        print(" - Total Gigs: " + str(len(band_gigs)))
+        band_gigs = sort_gigs_by_date(band_gigs)
 
     page = band_template(path=band_url, track=False, band=band_name, gigs=band_gigs)
 
@@ -104,9 +112,15 @@ def build_venue_page(venue_url, venue_name, gigs):
 
     print(venue_url)
 
+    if len(venue_gigs) > 1:
+        print(" - Total Gigs: " + str(len(venue_gigs)))
+        venue_gigs = sort_gigs_by_date(venue_gigs)
+
     page = venue_template(path=venue_url, track=False, venue=venue_name, gigs=venue_gigs)
 
     output_page(venue_url, page)
+
+
 
 
 def build_all():
