@@ -1,15 +1,17 @@
-<html>
-<head>
-<title>${band}</title>
-</head>
-<body>
-<div tal:condition="gigs">
-      <ul>
-        <li tal:repeat="item gigs">
-                  <p tal:content="item.venue" />
-                  <p tal:content='item.date.strftime("%a %d %b")' />
-        </li>
-      </ul>
-    </div>
-<body>
-</html>
+<metal:main use-macro="load: main.pt">
+    <p metal:fill-slot="title">${band} - Live Band Photos Mobile</p>
+    <p metal:fill-slot="content">
+        <div class="row">
+            <div class="container">
+                <h2><span >${band}</span> Gigs</h2>
+
+                <div tal:condition="gigs">
+                <p  class="gig" tal:repeat="item gigs">
+                    <span tal:content='item.date.strftime("%a %d %b")'></span>
+                    -
+                    <span itemprop="name"><a href="item.venue" tal:content="item.venue"></a></span>
+                </p>
+            </div>
+        </div>
+    </p>
+</metal:main>
