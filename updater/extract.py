@@ -1,20 +1,20 @@
-from chameleon import PageTemplateLoader
 import datetime
 import os
 import pathlib
 import re
-
 import xml.etree.ElementTree as et
+
+from chameleon import PageTemplateLoader
 
 root = pathlib.Path(__file__).parent.resolve()
 templates_path = os.path.join(root, "templates")
-destination_base = os.path.join(pathlib.Path(__file__).parent.parent.resolve(), "dst")
+destination_base = pathlib.Path(root).parent.resolve() / "dst"
 today = datetime.date.today()
 now = datetime.datetime.now()
 templates = PageTemplateLoader(templates_path)
 
 
-def isoparse(s):
+def iso_parse_date(s):
     try:
         year = s[0:4]
         month = s[5:7]
@@ -29,12 +29,12 @@ def isoparse(s):
         return None
 
 
-def make_url(originalPath):
-    base = originalPath.lower()
+def make_url(original_path):
+    url_base = original_path.lower()
 
-    root = base.strip();
+    url_root = url_base.strip();
 
-    replaced_encoded_space = root.replace("%20", "-")
+    replaced_encoded_space = url_root.replace("%20", "-")
     replaced_wrong_slash = replaced_encoded_space
     replaced_duplicate_hyphens = re.sub(r"[^a-z0-9\-/]", "-", replaced_wrong_slash)
     replaced_bad_chars = re.sub(r"(\-{2,})", "-", replaced_duplicate_hyphens)
@@ -54,18 +54,27 @@ def make_venue_url(name):
     return make_url('/venue/' + name)
 
 
-def make_venue_fragment(name):
-    name_base = name.lower()
+def create_folder(folder):
+    if not folder.exists():
+        try:
+            folder.mkdir()
+        except FileExistsError:
+            pass
 
-    name_root = name_base.strip();
 
-    replaced_encoded_space = name_root.replace("%20", "-")
-    replaced_wrong_slash = replaced_encoded_space
-    replaced_duplicate_hyphens = re.sub(r"[^a-z0-9\-/]", "-", replaced_wrong_slash)
-    replaced_bad_chars = re.sub(r"(\-{2,})", "-", replaced_duplicate_hyphens)
-    replaced_ending_hyphens = replaced_bad_chars.rstrip('-')
+def write_file(file_name, contents):
+    file_name.open("w").write(contents)
 
-    return replaced_ending_hyphens
+
+def output_page(url, page):
+    fragments = url[1:-1].split("/")
+    output_folder = destination_base
+    for fragment in fragments:
+        create_folder(output_folder)
+        output_folder = output_folder / fragment
+    create_folder(output_folder)
+    band_index_html = output_folder / "index.html"
+    write_file(band_index_html, page)
 
 
 def build_band_page(band_url, band_name, gigs):
@@ -78,26 +87,32 @@ def build_band_page(band_url, band_name, gigs):
             band_gigs.append(gig)
             print(gig['venue'])
 
+    print(band_url)
+
     page = band_template(path=band_url, track=False, band=band_name, gigs=band_gigs)
 
-    print(band_url)
-    band_fragments = band_url[1:-1].split("/")
-
-    band_output_folder = destination_base
-    for fragment in band_fragments:
-        band_output_folder = os.path.join(band_output_folder, fragment)
-
-    os.mkdir(band_output_folder)
-
-    band_index_html = band_output_folder / "index.html"
-
-    band_index_html.open("w").write(page)
+    output_page(band_url, page)
 
 
-if __name__ == "__main__":
+def build_venue_page(venue_url, venue_name, gigs):
+    venue_template = templates['venue.pt']
 
+    venue_gigs = []
+    for gig in gigs:
+        gvu = make_venue_url(gig['venue'])
+        if gvu == venue_url:
+            venue_gigs.append(gig)
+            print(gig['band'])
+
+    print(venue_url)
+
+    page = venue_template(path=venue_url, track=False, venue=venue_name, gigs=venue_gigs)
+
+    output_page(venue_url, page)
+
+
+def build_all():
     gigs_file = root / "gigs.xml"
-
 
     gigs_root = et.ElementTree(file=gigs_file)
 
@@ -115,10 +130,10 @@ if __name__ == "__main__":
         gig_id = gig_xml.find('id').text
         band_name = gig_xml.find('bandname').text
         venue_name = gig_xml.find('venuename').text
-        gigDateRaw = gig_xml.find('gigdate').text
+        gig_date_raw = gig_xml.find('gigdate').text
 
         parsed_id = int(gig_id, 10)
-        parsed_date = isoparse(gigDateRaw)
+        parsed_date = iso_parse_date(gig_date_raw)
         if parsed_date is not None and parsed_date >= today:
             relevant_gigs = relevant_gigs + 1
 
@@ -131,13 +146,14 @@ if __name__ == "__main__":
                 'venue': venue_name,
                 'date': parsed_date,
                 'band_url': make_band_url(band_name),
-                'venue_url': make_venue_url(band_name)
+                'venue_url': make_venue_url(venue_name)
             })
 
     for band in bands:
-        print(band)
+        build_band_page(band, bands[band], gigs)
 
     for venue in venues:
+        # build_venue_page(venue, venues[venue], gigs)
         print(venue)
 
     print("Total Gigs: " + str(found_gigs))
@@ -146,4 +162,8 @@ if __name__ == "__main__":
     print(templates_path)
     print(destination_base)
 
-    build_band_page('/band/reboot/', 'Reboot', gigs)
+    build_venue_page('/venue/ye-olde-smack-leigh-on-sea/', 'Ye Olde Smack, Leigh on Sea', gigs)
+
+
+if __name__ == "__main__":
+    build_all()
