@@ -4,7 +4,6 @@ on:
   push:
     branches:
       - master
-      - "feature/remove-google-app-engine"
   workflow_dispatch:
   schedule:
     - cron:  '10 0 * * *'
