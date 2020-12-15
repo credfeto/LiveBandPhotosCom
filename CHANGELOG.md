@@ -7,9 +7,9 @@ Please ADD ALL Changes to the UNRELASED SECTION and not a specific release
 
 ## [Unreleased]
 ### Added
+- Added downloader of gigs xml
 ### Fixed
 ### Changed
-- Updated dependent components
 ### Removed
 ### Deployment Changes
 
