@@ -34,7 +34,7 @@ jobs:
     - run: echo GIT_BRANCH=$(echo ${GITHUB_REF#refs/heads/}) >> $GITHUB_ENV
     - name: Update Gigs
       run: python updater/download.py
-    - uses: stefanzweifel/git-auto-commit-action@v4
+    - uses: stefanzweifel/git-auto-commit-action@v4.11.0
       with:
         commit_message: "Updated gigs (${{ env.WHEN}})"
         file_pattern: "updater/gigs.xml"
