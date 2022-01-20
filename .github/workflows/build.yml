@@ -19,7 +19,7 @@ jobs:
         fetch-depth: 0
         ref: ${{ github.head_ref }}
         token: ${{ secrets.SOURCE_PUSH_TOKEN }}
-    - uses: actions/setup-python@v2.2.2
+    - uses: actions/setup-python@v2.3.1
       with:
         python-version: 3.8
     - uses: actions/cache@v2.1.7
