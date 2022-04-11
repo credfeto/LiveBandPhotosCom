@@ -1,5 +1,5 @@
 <br />
-<b>Warning</b>:  mysql_connect(): Can't connect to MySQL server on 'mysql02.iomart.com' (113) in <b>/vhost/vhost2/l/i/v/livebandphotos.co.uk/admin/db2/bands/dbinfo.php</b> on line <b>6</b><br />
+<b>Warning</b>:  mysql_connect(): Lost connection to MySQL server during query in <b>/vhost/vhost2/l/i/v/livebandphotos.co.uk/admin/db2/bands/dbinfo.php</b> on line <b>6</b><br />
 <br />
 <b>Warning</b>:  main(): URL file-access is disabled in the server configuration in <b>/vhost/vhost2/l/i/v/livebandphotos.co.uk/admin/db2/bands/dbinfo.php</b> on line <b>8</b><br />
 <br />
