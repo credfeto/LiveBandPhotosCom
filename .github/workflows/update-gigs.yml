@@ -3,7 +3,7 @@ name: Update Gigs
 on:
   push:
     branches:
-      - master
+      - main
   workflow_dispatch:
   schedule:
     - cron:  '32 * * * *'
