@@ -1,2 +1,2 @@
-chameleon==3.10.0
+chameleon==3.10.1
 htmlmin==0.1.12
