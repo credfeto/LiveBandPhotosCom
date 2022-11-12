@@ -8,6 +8,10 @@ on:
   schedule:
     - cron: '10 0 * * *'
 
+concurrency:
+  group: ${{ github.workflow }}-${{ github.ref }}
+  cancel-in-progress: true
+
 jobs:
   build_only:
 
