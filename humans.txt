@@ -1,0 +1,14 @@
+/* TEAM */
+	Your title: Mark Ridgwell
+	Site: https://www.markridgwell.co.uk/about/
+	Role: Programmer
+	Twitter: @credfeto
+	ADN: @credfeto
+	Location: Harlow, United Kingdom.
+
+	Your title: Philip Ridgwell
+	Site: https://www.livebandphotos.co.uk/
+	Site: https://www.livebandphotos.com/
+	Role: Owner
+	Location: Harlow, United Kingdom.
+	
