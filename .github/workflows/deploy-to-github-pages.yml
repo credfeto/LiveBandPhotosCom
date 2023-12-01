@@ -46,6 +46,11 @@ jobs:
       - name: Rebuild site
         run: python updater/extract.py
 
+      - name: Add GPC
+        run: |
+          mkdir ./dst/.well-known
+          echo '{"gpc": true,"lastUpdate": "2023-12-01"}' > ./dst/.well-known/gpc.json
+
       - name: Deploy
         uses: peaceiris/actions-gh-pages@v3
         if: ${{ github.ref == 'refs/heads/main' }}
